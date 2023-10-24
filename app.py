@@ -7,12 +7,12 @@ app = Flask(__name__)
 stocks_data = [
     {
         'name': 'STOCK01',
-        'price': '20.30',
+        'price': 20.30,
         'ticker': 'STAB'
     },
     {
         'name': 'STOCK02',
-        'price': '130.00',
+        'price': 130.00,
         'ticker': 'NMRT'
     }
 ]
@@ -47,6 +47,19 @@ def home_route():
 @app.route('/stock', methods=['GET'])
 def stocks_route():
     return jsonify(stocks_data)
+
+# edit the price of a stock
+@app.route('/stock', methods=['PUT'])
+def update_stock():
+    for t in stocks_data:
+        if t['ticker'] == request.json['ticker']:
+            updated_price = request.json['price']
+            t['price'] = updated_price
+            return jsonify({'Msg': f'Updated stock price: ticker: {t["ticker"]} price: {updated_price}'})
+    
+    return jsonify({'Msg: Error ticker not found!'})
+
+
 
 # post route, create stock
 @app.route('/stock', methods=['POST'])
