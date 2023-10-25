@@ -14,5 +14,6 @@ type TickerData {
 
 type Query {
     stocks: [StockData]!
+    stock(name: String): StockData!
     tickerData(ticker: String): TickerData!
 }

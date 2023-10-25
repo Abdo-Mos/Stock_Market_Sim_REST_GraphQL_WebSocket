@@ -19,7 +19,7 @@ stocks_data = [
 
 ticker_data = [
     {
-        'ticker': 'STOCK01',
+        'ticker': 'STAB',
         'historical_price_data': [23.45, 754.6, 45.67],
         'highest_price': 754.6,
         'lowest_price': 20.30,
@@ -55,10 +55,10 @@ def update_stock():
         if t['ticker'] == request.json['ticker']:
             updated_price = request.json['price']
             t['price'] = updated_price
+            print(f'\033[91m Record updated successfully: {t["ticker"]} price: {updated_price} \033[0m')
             return jsonify({'Msg': f'Updated stock price: ticker: {t["ticker"]} price: {updated_price}'})
     
     return jsonify({'Msg: Error ticker not found!'})
-
 
 
 # post route, create stock
@@ -91,7 +91,7 @@ def resolve_get_stocks(*_):
     return stocks_data
 
 @ql_query.field("tickerData")
-def resolve_get_detailedData(_, info, ticker):
+def resolve_get_tickerData(_, info, ticker):
     for i in ticker_data:
         if i['ticker'] == ticker:
             return i 
