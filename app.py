@@ -72,6 +72,20 @@ def create_stock():
     stocks_data.append(new_stock)
     return jsonify({'Msg': f'Stock created successfully {new_stock}'})
 
+# delete a stock
+@app.route('/stock', methods=['DELETE'])
+def delete_stock():
+    for i in stocks_data:
+        if i['name'] == request.json['name']:
+            stocks_data.remove(i)
+            return jsonify({"Msg": "Stock deleted successfully!"})
+
+@ql_query.field("stock")
+def resolve_get_stock(*_, name):
+    for i in stocks_data:
+        if i['name'] == name:
+            return i
+
 @ql_query.field("stocks")
 def resolve_get_stocks(*_):
     return stocks_data
